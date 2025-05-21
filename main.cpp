@@ -19,7 +19,7 @@ int edgeListGen(int[][3],int,int,int);
 int main()
 {
     //Function name for checking:
-    enum Func_check {BF,BFPath,Traveling};
+    enum Func_check {bf,bf_path,travelling};
     
     bool randGen=1;
     int edgeList[MAX][3] ;
@@ -45,20 +45,20 @@ int main()
     }
     
     //Check the chosen function:
-    Func_check func = BFPath;
-    switch(func){
-        // case BF:
+    Func_check func = bf_path;
+    switch(func) {
+        // case bf:
         // int BFValue[50];
         // int BFPrev[50];
         // char start_vertices=edgeList[0][0];
         // BF(edgeList,numEdges,start_vertices,BFValue,BFPrev);
         // break;
-        case BFPath:
+        case bf_path:
         char start_vertices=edgeList[0][0];
         char end_vertices=edgeList[numEdges-1][/*numEdges-1*/1];
         cout << BF_Path(edgeList,numEdges,start_vertices,end_vertices);
         break;
-        // case Traveling:
+        // case traveling:
         // char start_vertices=edgeList[0][0];
         // Traveling(edgeList,numEdges,start_vertices);
         // break;
