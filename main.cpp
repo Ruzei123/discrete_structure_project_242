@@ -1,4 +1,5 @@
 #include "bellman.h"
+#include "tsm.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -21,14 +22,14 @@ int main()
     //Function name for checking:
     enum Func_check {bf,bf_path,travelling};
     
-    bool randGen=1;
-    int edgeList[MAX][3] ;
-    int numEdges=40;
+    bool randGen=0;
+    int edgeList[70][3];
+    int numEdges=70;
     int numVertices=10;
     int initlimit=15;
     if(!randGen){
         //Read from file
-        ifstream fin("EdgeList.txt");
+        ifstream fin("EdgeList1.txt");
         for(int i=0;i<numEdges;i++){
             fin>>edgeList[i][0]>>edgeList[i][1]>>edgeList[i][2];       
         }
@@ -38,31 +39,42 @@ int main()
         //Generate a random edgelist:
         if(edgeListGen(edgeList,numEdges,numVertices,initlimit)<0) return -1;
     }
-    //Print the generated edgelist:
-    
-    for(int i=0;i<numEdges;i++){
-        // printedge(edgeList[i]);
-    }
     
     //Check the chosen function:
-    Func_check func = bf_path;
+    Func_check func = travelling;
     switch(func) {
-        // case bf:
-        // int BFValue[50];
-        // int BFPrev[50];
-        // char start_vertices=edgeList[0][0];
-        // BF(edgeList,numEdges,start_vertices,BFValue,BFPrev);
-        // break;
-        case bf_path:
-        char start_vertices=edgeList[0][0];
-        char end_vertices=edgeList[numEdges-1][/*numEdges-1*/1];
-        cout << BF_Path(edgeList,numEdges,start_vertices,end_vertices);
-        break;
-        // case traveling:
-        // char start_vertices=edgeList[0][0];
-        // Traveling(edgeList,numEdges,start_vertices);
-        // break;
-        // default: cout<<"no such case";
+        case bf: {
+            int BFValue[50];
+            int BFPrev[50];
+            for(int k=0;k<numVertices;k++){
+                BFValue[k]=-1;
+                BFPrev[k]=-1;
+            }    
+            char start_vertices=edgeList[0][0];
+            BF(edgeList,numEdges,start_vertices,BFValue,BFPrev);
+            for(int k=0;k<numVertices;k++){
+                cout<<BFValue[k]<<" ";
+            }
+            cout<<endl;
+            for(int k=0;k<numVertices;k++){
+                cout<<BFPrev[k]<<" ";
+            }
+            cout<<endl;
+            break;
+        } 
+        case bf_path:{
+            char start_vertices=edgeList[0][0];
+            char end_vertices=edgeList[numEdges-5][/*numEdges-1*/1];
+            cout<< start_vertices<<" "<<end_vertices<<endl;
+            cout << BF_Path(edgeList,numEdges,start_vertices,end_vertices);
+            break;
+        }
+        case travelling: {
+            char start_vertices=edgeList[0][0];
+            cout << Traveling(edgeList,numEdges,start_vertices);
+            break;
+        }
+        default: cout<<"no such case";
     }
     return 0;
 }
